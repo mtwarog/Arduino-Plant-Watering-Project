@@ -1,0 +1,20 @@
+{
+  "name": "pump_server",
+  "version": "1.0.0",
+  "description": "Server for application which control water pump and dispalys output from sensors.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "water",
+    "pump"
+  ],
+  "author": "Anna Wachowiak Maciej Twaróg",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "csvtojson": "^1.1.5",
+    "express": "^4.15.2"
+  }
+}

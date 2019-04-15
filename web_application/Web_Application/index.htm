@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="refresh" content="10">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Water Pump Driver</title>
+
+    <!-- Charts_begin -->
+    <script src="amcharts/amcharts.js"></script>
+    <script src="amcharts/serial.js"></script>
+    <!-- Charts_end -->
+
+    <!-- Bootstrap -->
+    <link href="style/tether.min.css" rel="stylesheet">
+    <link href="style/bootstrap.min.css" rel="stylesheet">
+    <link href="style/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1>CACTI</h1>
+          <h3 class="dark_green center">control atmospheric conditions to inflorescence</h3>
+        </div>
+      </div>
+
+    <div class="row">
+      <div class="col-sm-4 nopadding_r"><h2>Plant:</h2></div>
+      <div class="col-sm-8 nopadding_l"><h3 class="green left">Cactus Astrophytum capricorne</h3></div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4"><h4>Current data</h4></div>
+      <div class="col-sm-4"></div>
+      <div class="col-sm-4"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4"><h4>Air temperature:</h4></div>
+      <div class="col-sm-4"><h5 id="temp_content"></h5></div>
+      <div class="col-sm-4"><h6>&deg;C</h6></div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4"><h4>Air humidity:</h4></div>
+      <div class="col-sm-4"><h5 id="airhum_content"></h5></div>
+      <div class="col-sm-4"><h6>%</h6></div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4"><h4>Soil humidity:</h4></div>
+      <div class="col-sm-4"><h5 id="soilhum_content"></h5></div>
+      <div class="col-sm-4"><h6>%</h6></div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4"><h4>Light intensity:</h4></div>
+      <div class="col-sm-4"><h5 id="light_content"></h5></div>
+      <div class="col-sm-4"><h6>lx</h6></div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4"><h4>Last plant watering:</h4></div>
+      <div class="col-sm-4"><h5 id="last_watering_date"></h5></div>
+      <div class="col-sm-4"><h6></h6></div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-4"><div id="run_pomp_button">Water the plant</div></div>
+      <div class="col-sm-4"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-4"><h5 id="pump_content"></h5></div>
+      <div class="col-sm-4"></div>
+    </div>
+
+    <!-- Charts_begin -->
+    <div class="row">
+      <div class="col-sm-3"></div>
+    <div class="col-sm-6" id="chart_temp_div" style="width: 640px; height: 400px;"></div>
+    <div class="col-sm-3"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6" id="chart_airhum_div" style="width: 640px; height: 400px;"></div>
+    <div class="col-sm-3"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6" id="chart_soilhum_div" style="width: 640px; height: 400px;"></div>
+    <div class="col-sm-3"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6" id="chart_light_div" style="width: 640px; height: 400px;"></div>
+    <div class="col-sm-3"></div>
+  </div>
+</div>
+    <script>
+      var chartDataTemp = [ {
+        "day": "2017-05-01",
+        "temp": 15
+      }, {
+        "day": "2017-05-02",
+        "temp": 10
+      }, {
+        "day": "2017-05-03",
+        "temp": 12
+      }, {
+        "day": "2017-05-04",
+        "temp": 15
+      }, {
+        "day": "2017-05-05",
+        "temp": 16
+      }, {
+        "day": "2017-05-06",
+        "temp": 9
+      }, {
+        "day": "2017-05-07",
+        "temp": 11
+      } ];
+
+      var chartDataAirhum = [ {
+        "day": "2017-05-01",
+        "airhum": 15
+      }, {
+        "day": "2017-05-02",
+        "airhum": 10
+      }, {
+        "day": "2017-05-03",
+        "airhum": 12
+      }, {
+        "day": "2017-05-04",
+        "airhum": 15
+      }, {
+        "day": "2017-05-05",
+        "airhum": 16
+      }, {
+        "day": "2017-05-06",
+        "airhum": 9
+      }, {
+        "day": "2017-05-07",
+        "airhum": 11
+      } ];
+
+      var chartDataSoilhum = [ {
+        "day": "2017-05-01",
+        "soilhum": 15
+      }, {
+        "day": "2017-05-02",
+        "soilhum": 10
+      }, {
+        "day": "2017-05-03",
+        "soilhum": 12
+      }, {
+        "day": "2017-05-04",
+        "soilhum": 15
+      }, {
+        "day": "2017-05-05",
+        "soilhum": 16
+      }, {
+        "day": "2017-05-06",
+        "soilhum": 9
+      }, {
+        "day": "2017-05-07",
+        "soilhum": 11
+      } ];
+
+      var chartDataLight = [ {
+        "day": "2017-05-01",
+        "light": 15
+      }, {
+        "day": "2017-05-02",
+        "light": 10
+      }, {
+        "day": "2017-05-03",
+        "light": 12
+      }, {
+        "day": "2017-05-04",
+        "light": 15
+      }, {
+        "day": "2017-05-05",
+        "light": 16
+      }, {
+        "day": "2017-05-06",
+        "light": 9
+      }, {
+        "day": "2017-05-07",
+        "light": 11
+      } ];
+
+    </script>
+    <!-- Charts_end -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="script/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="script/tether.min.js"></script>
+    <script src="script/bootstrap.min.js"></script>
+    <script src="script/script.js"></script>
+  </body>
